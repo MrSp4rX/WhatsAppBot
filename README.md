@@ -1,6 +1,6 @@
 # Bhosada Trap
 
-Introducing *Bhosada Trap* which is my New bot and I am glad to inform you that You guys can use my Bot via WhatsApp. To use this Bot first verify your Number by sending *Join theft lived* message on wa.me/14157386170 or You can verify your Number by just clicking on this link: http://wa.me/14157386170?text=Join%20theft%20lived and then use these HelpFul Commands:
+Introducing *Bhosada Trap* which is my New bot and I am glad to inform you that You guys can use my Bot via WhatsApp. To use this Bot first verify your Number by sending *Join theft lived* message on http://wa.me/14157386170 or You can verify your Number by just clicking on this link: http://wa.me/14157386170?text=Join%20theft%20lived and then use these HelpFul Commands:
 1. *Start*
 2. *Help*
 3. *Commands*
