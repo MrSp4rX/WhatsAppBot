@@ -4,7 +4,7 @@ Introducing *Bhosada Trap* which is my New bot and I am glad to inform you that 
 1. *Start*
 2. *Help*
 3. *Commands*
-4  *Image*
+4. *Image*
 5. *Ping*
 
 *Note: Don't Use Abuse Words there otherwise Bot will abuse you Hard. This Bot is Under Development*
@@ -13,10 +13,10 @@ Introducing *Bhosada Trap* which is my New bot and I am glad to inform you that 
 
 *Source Code:* https://github.com/MrSp4rX/WhatsAppBot
 
-*Report Bugs:* wa.me/919519874704
+*Report Bugs:* http://wa.me/919519874704
 
 *Open Issue:* https://github.com/MrSp4rX/WhatsAppBot/issues/new
 
-*For Protecting Your number from iSpammer tool for Lifetime contact wa.me/919519874704* 
+*For Protecting Your number from iSpammer tool for Lifetime contact http://wa.me/919519874704* 
 
-*For Queries, Banning, UnBanning and Abusing Persons contact wa.me/919519874704*
+*For Queries, Banning, UnBanning and Abusing Persons contact http://wa.me/919519874704*
