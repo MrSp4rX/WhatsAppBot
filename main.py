@@ -69,10 +69,10 @@ banned_users = []
 @app.route("/webhooks/inbound-message", methods=['POST'])
 def inbound_message():
     data = request.get_json()
+    print(data)
     number = data['from']['number']
     msg = data['message']['content']['text']
     print(f'>>> {number} sent {msg}\n')
-    print(data)
     for i in range(1):
         if str(number) != '919519874704':
             send('919519874704', f"wa.me/{str(number)} sent *{str(msg)}*")
