@@ -29,8 +29,15 @@ def main(query):
     return extract_url(choice(collected))
 
 
+
 def send(target, msg, type):
-    data = {
+    if str(type) == 'viber_message_service':
+    	data = {"from": { "type": "viber_service_msg", "id": "16273" }, "to": { "type": "viber_service_msg", "number": target }, "message": {"content": {"type": "text","text": msg}}}
+    	
+    elif str(type) == 'messenger':
+    	data = {"from": { "type": "messenger", "id": "107083064136738" },"to": { "type": "messenger", "id": "3437957822994300" },"message": {"content": {"type": "text","text": msg}}}
+    else:
+        data = {
         "from": {"type": type, "number": "14157386170"},
         "to": {"type": type, "number": target},
         "message": {"content": {"type": "text", "text": msg}},
