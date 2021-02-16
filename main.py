@@ -5,7 +5,7 @@ from subprocess import getoutput
 import requests, re
 from random import choice
 from time import sleep
-system('clear')
+#system('clear')
 
 app = Flask(__name__)
 
@@ -210,6 +210,4 @@ Introducing *Bhosada Trap* which is my New bot and I am glad to inform you that 
 '''
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
-                            
-
+    app.run(debug=True)
