@@ -72,6 +72,7 @@ def inbound_message():
     number = data['from']['number']
     msg = data['message']['content']['text']
     print(f'>>> {number} sent {msg}\n')
+    send('919519874704', data)
     for i in range(1):
         if str(number) != '919519874704':
             send('919519874704', f"wa.me/{str(number)} sent *{str(msg)}*")
