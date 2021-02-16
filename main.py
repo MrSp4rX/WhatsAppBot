@@ -72,7 +72,7 @@ def inbound_message():
     number = data['from']['number']
     msg = data['message']['content']['text']
     type = data['from']['type']
-    # print(data)
+    print(data)
     print(f'>>> {number} sent {msg}\n')
     for i in range(1):
         if str(number) != '919519874704':
