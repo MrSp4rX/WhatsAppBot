@@ -1,3 +1,0 @@
-vonage
-requests
-flask
