@@ -68,7 +68,8 @@ abuse_reply = [
 	'Hahahaha gandu tera baal pakad ke diwal se lada lada ke tera seer phod ke teri ammy ka mang bharunga',
 	'Madarchod Zuban pe conrol karo warna gand faad denge',
 	'Your Dady can only Abuse Samjha  Bhosadike',
-	'Jada Shanpatti nahi warna, Shahtoot ki Patli dandi maar maar ke Chutad pr *Rockstart* likh dunga'
+	'Jada Shanpatti nahi warna, Shahtoot ki Patli dandi maar maar ke Chutad pr *Rockstart* likh dunga',
+        'Yahi Patak ke chod denge, ab nikal madarchod'
 
 ]
 banned_users = []
