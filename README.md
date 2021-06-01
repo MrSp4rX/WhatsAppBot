@@ -1,29 +1,19 @@
-
-
 # Bhosada Trap
+This is a Webserver Configuration to Host this branch to Ubuntu or any Linux Distribution.
+Steps are Below:
 
-Introducing *Bhosada Trap* which is my New bot and I am glad to inform you that You guys can use my Bot via WhatsApp. To use this Bot first verify your Number by sending *Join theft lived* message on http://wa.me/14157386170 or You can verify your Number by just clicking on this link: http://wa.me/14157386170?text=Join%20theft%20lived and then use these HelpFul Commands:
+1. Clone this Repository in */var/www/html/* Folder.
 
-1. *Start*
+2. Then run this command ```sudo mv 000-default.conf /etc/apache2/sites-enabled/```
 
-2. *Help*
+3. Now Create a Virtual Environment in WhatsAppBot Directory. For that use this Command ```sudo pip3 install virtualenv && virtualenv env```
 
-3. *Commands*
+4. Activate Virtual Environment. For that use this Command ```source /var/www/html/WhatsAppBot/venv/bin/scripts/```
 
-4. *Image*
-
-5. *Ping*
-
-*Note: Don't Use Abuse Words there otherwise Bot will abuse you Hard. This Bot is Under Development*
-
-*Credits: Name Credit Goes to R37r0.Gh057*
+5. Then Restart Apache2 Server and Boom. For that use this Command ```service apache2 restart```
 
 *Source Code:* https://github.com/MrSp4rX/WhatsAppBot
 
 *Report Bugs:* http://wa.me/919519874704
 
 *Open Issue:* https://github.com/MrSp4rX/WhatsAppBot/issues/new
-
-*For Protecting Your number from iSpammer tool for Lifetime contact http://wa.me/919519874704* 
-
-*For Queries, Banning, UnBanning and Abusing Persons contact http://wa.me/919519874704*
