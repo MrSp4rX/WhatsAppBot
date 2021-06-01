@@ -80,13 +80,11 @@ def inbound_message():
     number = data['from']['number']
     msg = data['message']['content']['text']
     type = data['from']['type']
-    print(data)
     print(f'>>> {number} sent {msg}\n')
     for i in range(1):
         if str(number) != '919519874704':
             send('919519874704', f"wa.me/{str(number)} sent *{str(msg)}*", type)
-        
-    # print(banned_users)
+            
     if str(number) in banned_users:
         print(f'<<< Bhosada Trap sent {send(number, "You are Banned kiddo. Contact *MrSp4rX* to be Unban.", type)}\n')
         send('919519874704', f"wa.me/{str(number)} is a Banned User and he/she wanna send {str(msg)} to me.", type)
@@ -148,32 +146,11 @@ def inbound_message():
         elif str(msg).lower() == 'commands':
             print(f"\n<<< Bhosada Trap Sent {send(number, '*Ispammer* Command is used for Bombing on Indain numbers. *Help* Command is used to know about me. *Commands* Command is used to know All the commsnds. *Image* Command is used to Retrieve image of any Catagory. *Start* Command is used to check if Bot is Offline or Online. *Ping* Command is to Ping the Bot.', type)}\n")
         elif 'ispammer' in str(msg).lower():
-            try:
-                st = str(msg).lower().split()
-                times, num = int(st[2]), str(st[-1])
-                if times > 500:
-                    print(f"\n<<< Bhosada Trap Sent {send(number, '500 se jada nahi bhej skte', type)}\n")
-                elif len(str(num)) > 10:
-                    print(f"\n<<< Bhosada Trap Sent {send(number, 'Sahi Number likho', type)}\n")
-                elif len(str(num)) < 10:
-                    print(f"\n<<< Bhosada Trap Sent {send(number, 'Sahi Number likho', type)}\n")
-                elif len(str(num)) == 10 and times <= 500:
-                    if str(num)=='9519874704':
-                        print(f"\n<<< Bhosada Trap Sent {send(number, 'Baap Se Backchodi nahi beta. Teko kya lagta hai *MrSparX* chutiya hai? Abhi dekhna teri kaise gand marta hai vo.', type)}\n")
-                        print(f"\n<<< Bhosada Trap Sent {send('919519874704', f'wa.me/{number} wants to do SMS and Call Bombing on You. Be Careful Sir...', type)}\n")
-                    else:
-                        print(f"\n<<< Bhosada Trap Sent {send(number, 'Wow! Bombing Started...', type)}\n")
-                        system(f'ispammer -m {str(times)} -t {str(num)}')
-                        print(f"\n<<< Bhosada Trap Sent {send(number, 'Congratulations! Bombing Successfull...', type)}\n")
-            except:
-                print(f"\n<<< Bhosada Trap Sent {send(number, 'Something Went Wrong...', type)}\n")
-            
-            # else:
-            #     send(number, 'Something Went Wrong...')
+            print(f"\n<<< Bhosada Trap Sent {send(number, 'This Command is unable due to some Reasons. Any query? Contact: wa.me/919519874704', type)}\n")
             
         elif str(msg).lower() == 'ping':
             if number=='919519874704':
-                print(f"<<< Bhosada Trap sent {send(number, 'Pong Daddy!', type)}\n")
+                print(f"<<< Bhosada Trap sent {send(number, 'Pong Bappu!', type)}\n")
             else:
                 print(f"<<< Bhosada Trap sent {send(number, 'Pong!', type)}\n")
         else:
@@ -184,6 +161,8 @@ def inbound_message():
                         break
                     else:
                         print(f'\n<<< Bhosada Trap sent {send(number, choice(abuse_reply), type)}\n')
+
+
     return ''
 
 @app.route("/")
