@@ -77,9 +77,14 @@ banned_users = []
 @app.route("/webhooks/inbound-message", methods=['POST'])
 def inbound_message():
     data = request.get_json()
+    msg_uid = data['message_uid']
+    to_number = data['to']['number']
+    time_stamp = data['timestamp']
     number = data['from']['number']
     msg = data['message']['content']['text']
     type = data['from']['type']
+    with open('message.log', 'a+') as f:
+        f.write(number+'  sent  '+msg+'  to  '+to_number+'  at  '+time_stamp+'  on  '+type+'  with message UID  '+msg_uid)
     print(f'>>> {number} sent {msg}\n')
     for i in range(1):
         if str(number) != '919519874704':
@@ -173,7 +178,7 @@ def inbound_status():
     to_number = data['to']['number']
     time_stamp = data['timestamp']
     status = data['status']
-    with open('logs.txt', 'a+') as f:
+    with open('status.log', 'a+') as f:
         f.write(msg_uid+'   ')
         f.write(from_number+'   ')
         f.write(to_number+'   ')
