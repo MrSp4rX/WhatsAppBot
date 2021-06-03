@@ -165,6 +165,23 @@ def inbound_message():
 
     return ''
 
+@app.route("/webhooks/inbound-status", methods=['POST'])
+def inbound_status():
+    data = request.get_json()
+    msg_uid = data['message_uuid']
+    from_number = data['from']['number']
+    to_number = data['to']['number']
+    time_stamp = data['timestamp']
+    status = data['status']
+    with open('logs.txt', 'a+') as f:
+        f.write(msg_uid+'   ')
+        f.write(from_number+'   ')
+        f.write(to_number+'   ')
+        f.write(time_stamp+'   ')
+        f.write(status+'   '+'\n\n')
+
+    return ''
+
 @app.route("/")
 def index():
     return '''
