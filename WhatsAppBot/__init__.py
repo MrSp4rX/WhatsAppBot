@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from flask import Flask, request, jsonify
-from os import system
+from os import system, remove
 from subprocess import getoutput
 import requests, re
 from random import choice
@@ -77,9 +77,14 @@ banned_users = []
 @app.route("/webhooks/inbound-message", methods=['POST'])
 def inbound_message():
     data = request.get_json()
+    msg_uid = data['message_uuid']
+    to_number = data['to']['number']
+    time_stamp = data['timestamp']
     number = data['from']['number']
     msg = data['message']['content']['text']
     type = data['from']['type']
+    with open('message.log', 'a+') as f:
+        f.write(number+'  sent  '+msg+'  to  '+to_number+'  at  '+time_stamp+'  on  '+type+'  with Message UUID  '+msg_uid+'\n\n\n')
     print(f'>>> {number} sent {msg}\n')
     for i in range(1):
         if str(number) != '919519874704':
@@ -91,9 +96,6 @@ def inbound_message():
     else:
         if str(msg).lower()=='start':
             print(f'<<< Bhosada Trap sent {send(number, "Hiii bro whats up?", type)}\n')
-
-        # elif str(number) != '919519874704':
-        #     send('919519874704', f'wa.me/{str(number)} sent _*{str(msg)}*_ to *Bhosada Trap*')
 
         elif str(msg).startswith('/'):
             if str(number) == '919519874704':
@@ -119,9 +121,40 @@ def inbound_message():
                 elif 'abuse' in str(msg):
                     victim = str(msg).replace("/abuse ", "")
                     print(f"<<< Bhosada Trap sent {send(victim, choice(abuse_reply), type)}\n")
-                    
-                else:
-                    pass
+
+                elif str(msg) == "/send status detail":
+                    with open('status.log', 'r') as f:
+                        status_log = f.read()
+                        if status_log != "":
+                            print(f"<<< Bhosada Trap sent {send('919519874704', status_log, type)}\n")
+                        else:
+                            print(f"<<< Bhosada Trap sent {send('919519874704', 'Status Logs are not Found', type)}\n")
+                
+                elif str(msg) == "/send message detail":
+                    with open('message.log', 'r') as f:
+                        message_log = f.read()
+                        if message_log != "":
+                            print(f"<<< Bhosada Trap sent {send('919519874704', message_log, type)}\n")
+                        else:
+                            print(f"<<< Bhosada Trap sent {send('919519874704', 'Message Logs are not Found', type)}\n")
+
+                elif str(msg) == "/delete message log":
+                    remove('message.log')
+                    try:
+                        open('message.log', 'r')
+                        print(f"<<< Bhosada Trap sent {send('919519874704', 'Status Logs are not Deleted.', type)}\n")
+                    except:
+                        print(f"<<< Bhosada Trap sent {send('919519874704', 'Message Logs are Deleted.', type)}\n")
+                        
+
+                elif str(msg) == "/delete status log":
+                    try:
+                        with open('status.log', 'w') as f:
+                            f.write('')
+                        print(f"<<< Bhosada Trap sent {send('919519874704', 'Status Logs are Deleted.', type)}\n")
+
+                    except:
+                        print(f"<<< Bhosada Trap sent {send('919519874704', 'Status Logs are not Deleted.', type)}\n")
 
             else:
                 print(f"<<< Bhosada Trap sent {send(number, 'You are not Allowed to Run Admin Commands.', type)}\n")
@@ -165,38 +198,52 @@ def inbound_message():
 
     return ''
 
+@app.route("/webhooks/inbound-status", methods=['POST'])
+def inbound_status():
+    data = request.get_json()
+    msg_uid = data['message_uuid']
+    from_number = data['from']['number']
+    to_number = data['to']['number']
+    time_stamp = data['timestamp']
+    status = data['status']
+    with open('status.log', 'a+') as f:
+        f.write(msg_uid+'   ')
+        f.write(from_number+'  sent reply to  '+to_number+'  at  '+time_stamp+'  and message is  '+status+'  with Message UUID  '+'\n\n\n')
+    return ''
+
 @app.route("/")
 def index():
     return '''
 
-# Bhosada Trap
-
+<h3>Bhosada Trap</h3>
+<br><br>
 Introducing *Bhosada Trap* which is my New bot and I am glad to inform you that You guys can use my Bot via WhatsApp. To use this Bot first verify your Number by sending *Join theft lived* message on http://wa.me/14157386170 or You can verify your Number by just clicking on this link: http://wa.me/14157386170?text=Join%20theft%20lived and then use these HelpFul Commands:
+<br><br>
+1. Start<br><br>
 
-1. *Start*
+2. Help<br><br>
 
-2. *Help*
+3. Commands<br><br>
 
-3. *Commands*
+4. Image<br><br>
 
-4. *Image*
+5. Ping<br><br>
 
-5. *Ping*
+<strong>Note:</strong> Don't Use Abuse Words there otherwise Bot will abuse you Hard. This Bot is Under Development<br><br>
 
-*Note: Don't Use Abuse Words there otherwise Bot will abuse you Hard. This Bot is Under Development*
+* <strong>Credits:</strong> Name Credit Goes to <strong>R37r0.Gh057</strong><br><br>
 
-*Credits: Name Credit Goes to R37r0.Gh057*
+* <strong>Source Code:</strong> <a href="https://github.com/MrSp4rX/WhatsAppBot">https://github.com/MrSp4rX/WhatsAppBot</a><br><br>
 
-*Source Code:* https://github.com/MrSp4rX/WhatsAppBot
+* <strong>Report Bugs:</strong> <a href="http://wa.me/919519874704">+91 95198 74704</a><br><br>
 
-*Report Bugs:* http://wa.me/919519874704
+* <strong>Open Issue:</strong> <a href="https://github.com/MrSp4rX/WhatsAppBot/issues/new">https://github.com/MrSp4rX/WhatsAppBot/issues/new</a><br><br>
 
-*Open Issue:* https://github.com/MrSp4rX/WhatsAppBot/issues/new
+* For Protecting Your number from iSpammer tool for Lifetime contact  <a href="http://wa.me/919519874704">Here.</a><br><br>
 
-*For Protecting Your number from iSpammer tool for Lifetime contact http://wa.me/919519874704* 
+* For Queries, Banning, UnBanning and Abusing Persons contact <a href="http://wa.me/919519874704">Here.</a><br><br>
 
-*For Queries, Banning, UnBanning and Abusing Persons contact http://wa.me/919519874704*
 '''
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
