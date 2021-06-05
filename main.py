@@ -36,6 +36,7 @@ def send(target, msg, type):
     	
     elif str(type) == 'messenger':
     	data = {"from": { "type": "messenger", "id": "107083064136738" },"to": { "type": "messenger", "id": "3437957822994300" },"message": {"content": {"type": "text","text": msg}}}
+
     else:
         data = {
         "from": {"type": type, "number": "14157386170"},
@@ -50,6 +51,11 @@ def send(target, msg, type):
     )
     return msg
 
+def img_send(target, msg, url):
+    data = {"from": { "type": "whatsapp", "number": "14157386170" }, "to": { "type": "whatsapp", "number": target }, "message": { "content": { "type": "image", "image": { "url": url, "caption": msg } } }}
+    auth=("d1e77dfc", "qe6nQvRRQPq3HS6u")
+    response = requests.post('https://messages-sandbox.nexmo.com/v0.1/messages', json=data, auth=auth)
+    return 'Image sent'
 
 
 abuse = ['lavda','bhosadike','bsdk', 'bhsdk', 'chod', 'lund', 'gand', 'jerk', 'lode', 'loda', 'chut', 'bc', 'mc','mkc','jhat','suwar','kutte','randi','bhosadi', 'loda', 'lawda', 'ashole','fuck'
@@ -166,9 +172,11 @@ def inbound_message():
         elif 'image' in str(msg).lower():
                 msg = str(msg).split()
                 msg = str(msg[1:])
-                print(str(msg))
+                caption = "This is Your Image"
+                url = main(str(msg))
+                print(url)
                 if len(msg)>=1:
-                    print(f'\n<<< Bhosada Trap sent {send(number, main(str(msg)), type)}\n')
+                    print(f'\n<<< Bhosada Trap sent {img_send(number, caption, url)}\n')
                 else:
                     print(f'\n<<< Bhosada Trap sent {send(number, "Please Write *Image* Command Clearly...", type)}\n')
                 
@@ -246,4 +254,4 @@ Introducing *Bhosada Trap* which is my New bot and I am glad to inform you that 
 '''
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
