@@ -3,30 +3,41 @@ from flask import Flask, request, jsonify
 from os import system, remove
 from subprocess import getoutput
 import requests, re
-from random import choice
+from random import choice, random
 from time import sleep
-#system('clear')
+import logging
+import random
 
 app = Flask(__name__)
 
-import logging
+
+
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
 
-def extract_url(string):
-    f = re.findall(r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))",string)[0][0].strip("('").split('?')[0]
-    return f
-
 def main(query):
-    url = 'https://unsplash.com/s/photos/'+query
-    headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'}
-    r = requests.get(url,headers=headers)
-    collected = []
-    for i in r.content.decode().split(' '):
-        if 'images.unsplash.com/photo-' in i:
-            collected.append(i)
-    return extract_url(choice(collected))
+    if " " in str(query):
+        query = str(query).replace(' ', '%20')
+    else:
+        pass
+
+    num = random.randint(0, 16)
+    response = requests.get(f'https://api.unsplash.com/search/photos?client_id=iq6ZmfICfiWv8NNoobrG1vqCr6TOC5qBNR1FE4CvfDA&query={query}&order_by=latest&orientation=portrait').json()
+    desc = response['results'][num]['description']
+    url = response['results'][num]['urls']['regular']
+    created_at = response['results'][num]['created_at']
+    width = response['results'][num]['width']
+    height = response['results'][num]['height']
+    likes = response['results'][num]['likes']
+    return {
+        "desc":desc,
+        "url":url,
+        "created_at":created_at,
+        "size":{"width":width, "height":height},
+        "likes":likes
+    }
+
 
 
 
@@ -36,6 +47,7 @@ def send(target, msg, type):
     	
     elif str(type) == 'messenger':
     	data = {"from": { "type": "messenger", "id": "107083064136738" },"to": { "type": "messenger", "id": "3437957822994300" },"message": {"content": {"type": "text","text": msg}}}
+
     else:
         data = {
         "from": {"type": type, "number": "14157386170"},
@@ -50,6 +62,11 @@ def send(target, msg, type):
     )
     return msg
 
+def img_send(target, msg, url):
+    data = {"from": { "type": "whatsapp", "number": "14157386170" }, "to": { "type": "whatsapp", "number": target }, "message": { "content": { "type": "image", "image": { "url": url, "caption": msg } } }}
+    auth=("d1e77dfc", "qe6nQvRRQPq3HS6u")
+    response = requests.post('https://messages-sandbox.nexmo.com/v0.1/messages', json=data, auth=auth)
+    return 'Image sent'
 
 
 abuse = ['lavda','bhosadike','bsdk', 'bhsdk', 'chod', 'lund', 'gand', 'jerk', 'lode', 'loda', 'chut', 'bc', 'mc','mkc','jhat','suwar','kutte','randi','bhosadi', 'loda', 'lawda', 'ashole','fuck'
@@ -164,13 +181,13 @@ def inbound_message():
             send(number, 'No courses now', type)
         
         elif 'image' in str(msg).lower():
-                msg = str(msg).split()
-                msg = str(msg[1:])
-                print(str(msg))
-                if len(msg)>=1:
-                    print(f'\n<<< Bhosada Trap sent {send(number, main(str(msg)), type)}\n')
-                else:
-                    print(f'\n<<< Bhosada Trap sent {send(number, "Please Write *Image* Command Clearly...", type)}\n')
+            try:
+                data = main(str(msg)[1:])
+                raw_caption, url, created_at, size, likes = data['desc'], data['url'], data['created_at'], data['size'], data['likes']
+                main_caption = f"*Description:* {raw_caption}. This image is Created at {created_at}. Height and Width of this Image is {size['height']}X{size['width']}. This Image has {likes} Likes on https://Unsplash.com. *Note:* Searching method of this Website isn't Working Well, Images can be Non-Accurate."
+                print(f'\n<<< Bhosada Trap sent {img_send(number, main_caption, url)}\n')
+            except:
+                print(f'\n<<< Bhosada Trap sent {send(number, "Please Write *Image* Command Clearly...", type)}\n')
                 
         
         elif 'help' in str(msg).lower():
@@ -246,4 +263,4 @@ Introducing *Bhosada Trap* which is my New bot and I am glad to inform you that 
 '''
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
