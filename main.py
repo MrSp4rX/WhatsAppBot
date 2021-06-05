@@ -181,8 +181,9 @@ def inbound_message():
             send(number, 'No courses now', type)
         
         elif 'image' in str(msg).lower():
+            msg = str(msg).lower().replace('image ', '')
             try:
-                data = main(str(msg).split()[1:])
+                data = main(str(msg))
                 raw_caption, url, created_at, size, likes = data['desc'], data['url'], data['created_at'], data['size'], data['likes']
                 main_caption = f"*Description:* {raw_caption}. This image is Created at {created_at}. Height and Width of this Image is {size['height']}X{size['width']}. This Image has {likes} Likes on https://Unsplash.com. *Note:* Searching method of this Website isn't Working Well, Images can be Non-Accurate."
                 print(f'\n<<< Bhosada Trap sent {img_send(number, main_caption, url)}\n')
