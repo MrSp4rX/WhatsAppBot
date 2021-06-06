@@ -12,7 +12,7 @@ import jiosaavn
 
 app = Flask(__name__)
 # CORS(app)
-url = 'http://127.0.0.1:5000'
+url = 'https://bhosadatrappp.herokuapp.com'
 
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
