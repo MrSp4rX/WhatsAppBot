@@ -314,4 +314,4 @@ Introducing *Bhosada Trap* which is my New bot and I am glad to inform you that 
 '''
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
