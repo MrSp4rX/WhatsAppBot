@@ -3,5 +3,3 @@ flask
 requests
 ispammer
 pyDes
-subprocess
-random
