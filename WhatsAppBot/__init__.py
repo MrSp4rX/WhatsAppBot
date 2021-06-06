@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from flask import Flask, request, jsonify
+from flask import Flask, request, redirect, jsonify, json
 from os import system, remove
 from subprocess import getoutput
 import requests, re
@@ -7,14 +7,24 @@ from random import choice, random
 from time import sleep
 import logging
 import random
+import jiosaavn
+# from flask_cors import CORS
 
 app = Flask(__name__)
-
-
+# CORS(app)
+url = 'http://127.0.0.1:5000'
 
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
+def get_song(query):
+    try:
+        query = query.replace(' ', '%20')
+    except:
+        pass
+    r = requests.get(f'http://127.0.0.1:5000/song?query={query}').json()
+    top_data = r[0]
+    return top_data
 
 def main(query):
     if " " in str(query):
@@ -90,6 +100,26 @@ abuse_reply = [
 
 ]
 banned_users = []
+
+@app.route('/song/')
+def search():
+    lyrics = False
+    songdata = True
+    query = request.args.get('query')
+    lyrics_ = request.args.get('lyrics')
+    songdata_ = request.args.get('songdata')
+    if lyrics_ and lyrics_.lower()!='false':
+        lyrics = True
+    if songdata_ and songdata_.lower()!='true':
+        songdata = False
+    if query:
+        return jsonify(jiosaavn.search_for_song(query, lyrics, songdata))
+    else:
+        error = {
+            "status": False,
+            "error":'Query is required to search songs!'
+        }
+        return jsonify(error)
 
 @app.route("/webhooks/inbound-message", methods=['POST'])
 def inbound_message():
@@ -182,14 +212,33 @@ def inbound_message():
         
         elif 'image' in str(msg).lower():
             msg = str(msg).lower().replace('image ', '')
-            try:
+            if str(msg) != '':
                 data = main(str(msg))
                 raw_caption, url, created_at, size, likes = data['desc'], data['url'], data['created_at'], data['size'], data['likes']
                 main_caption = f"*Description:* {raw_caption}. This image is Created at {created_at}. Height and Width of this Image is {size['height']} X {size['width']}. This Image has {likes} Likes on https://Unsplash.com. *Note:* Searching method of this Website isn't Working Well, Images can be Non-Accurate."
                 print(f'\n<<< Bhosada Trap sent {main_caption} with Corresponding Image. {img_send(number, main_caption, url)}\n')
-            except Exception as e:
-                print(e)
+            else:
                 print(f'\n<<< Bhosada Trap sent {send(number, "Please Write *Image* Command Clearly...", type)}\n')
+
+        elif 'song' in str(msg).lower():
+            query = str(msg).replace('song ', '')
+            top_data = get_song(query)
+            name, duration, has_lyrics, image_url, language, lyrics_snippet, media_preview_url, media_url, perma_url, release_date, singers, jiotune_url = top_data['album'], top_data['duration'], top_data['has_lyrics'], top_data['image'], top_data['language'], top_data['lyrics_snippet'], top_data['media_preview_url'], top_data['media_url'], top_data['perma_url'], top_data['release_date'], top_data['singers'], top_data['vlink']
+            main_caption = f'''
+*Name:* {name}. 
+*Song:* {media_url}. 
+*Duration:* {duration}. 
+*Language:* {language}.
+*Lyrics Snippets:* {lyrics_snippet}. 
+*Media Preview URL:* {media_preview_url}. 
+*JioSavan URL:* {perma_url}.
+*Release Date:* {release_date}.
+*Singers:* {singers}.
+*JioTune URL:* {jiotune_url}
+
+_*Credits: Real Code of Song Fetching Code is here: https://github.com/cyberboysumanjay/JioSaavnAPI. Owner is https://github.com/cyberboysumanjay/*_
+'''
+            print(f'\n<<< Bhosada Trap sent {main_caption} with Corresponding Image. {img_send(number, main_caption, image_url)}\n')
                 
         
         elif 'help' in str(msg).lower():
