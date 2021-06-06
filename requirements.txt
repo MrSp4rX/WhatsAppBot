@@ -2,3 +2,7 @@ gunicorn
 flask
 requests
 ispammer
+pyDes
+traceback
+subprocess
+random
