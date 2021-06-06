@@ -22,7 +22,7 @@ def get_song(query):
         query = query.replace(' ', '%20')
     except:
         pass
-    r = requests.get(f'http://127.0.0.1:5000/song?query={query}').json()
+    r = requests.get(f'{url}/song?query={query}').json()
     top_data = r[0]
     return top_data
 
