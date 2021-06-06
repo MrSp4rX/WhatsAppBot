@@ -236,7 +236,7 @@ def inbound_message():
 *Singers:* {singers}.
 *JioTune URL:* {jiotune_url}
 
-_*Credits: Real Code of Song Fetching Code is here: https://github.com/cyberboysumanjay/JioSaavnAPI. Owner is https://github.com/cyberboysumanjay/*_
+_*Credits: Real Code of Song Fetching Code is here: https://github.com/cyberboysumanjay/JioSaavnAPI. Owner is https://github.com/cyberboysumanjay/ .*_
 '''
             print(f'\n<<< Bhosada Trap sent {main_caption} with Corresponding Image. {img_send(number, main_caption, image_url)}\n')
                 
