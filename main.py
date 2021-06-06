@@ -12,7 +12,7 @@ import jiosaavn
 
 app = Flask(__name__)
 # CORS(app)
-url = 'https://bhosadatrappp.herokuapp.com/'
+url = 'https://bhosadatrappp.herokuapp.com'
 
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
@@ -223,7 +223,11 @@ def inbound_message():
         elif 'song' in str(msg).lower():
             query = str(msg).replace('song ', '')
             top_data = get_song(query)
-            name, duration, has_lyrics, image_url, language, lyrics_snippet, media_preview_url, media_url, perma_url, release_date, singers, jiotune_url = top_data['album'], top_data['duration'], top_data['has_lyrics'], top_data['image'], top_data['language'], top_data['lyrics_snippet'], top_data['media_preview_url'], top_data['media_url'], top_data['perma_url'], top_data['release_date'], top_data['singers'], top_data['vlink']
+            name, duration, image_url, language, lyrics_snippet, media_preview_url, media_url, perma_url, release_date, singers= top_data['album'], top_data['duration'], top_data['image'], top_data['language'], top_data['lyrics_snippet'], top_data['media_preview_url'], top_data['media_url'], top_data['perma_url'], top_data['release_date'], top_data['singers']
+            try:
+                jiotune_url = top_data['vlink']
+            except:
+                pass
             main_caption = f'''
 *Name:* {name}. 
 *Song:* {media_url}. 
@@ -235,7 +239,6 @@ def inbound_message():
 *Release Date:* {release_date}.
 *Singers:* {singers}.
 *JioTune URL:* {jiotune_url}
-
 _*Credits: Real Code of Song Fetching Code is here: https://github.com/cyberboysumanjay/JioSaavnAPI. Owner is https://github.com/cyberboysumanjay/ .*_
 '''
             print(f'\n<<< Bhosada Trap sent {main_caption} with Corresponding Image. {img_send(number, main_caption, image_url)}\n')
@@ -282,35 +285,22 @@ def inbound_status():
 @app.route("/")
 def index():
     return '''
-
 <h3>Bhosada Trap</h3>
 <br><br>
 Introducing *Bhosada Trap* which is my New bot and I am glad to inform you that You guys can use my Bot via WhatsApp. To use this Bot first verify your Number by sending *Join theft lived* message on http://wa.me/14157386170 or You can verify your Number by just clicking on this link: http://wa.me/14157386170?text=Join%20theft%20lived and then use these HelpFul Commands:
 <br><br>
 1. Start<br><br>
-
 2. Help<br><br>
-
 3. Commands<br><br>
-
 4. Image<br><br>
-
 5. Ping<br><br>
-
 <strong>Note:</strong> Don't Use Abuse Words there otherwise Bot will abuse you Hard. This Bot is Under Development<br><br>
-
 * <strong>Credits:</strong> Name Credit Goes to <strong>R37r0.Gh057</strong><br><br>
-
 * <strong>Source Code:</strong> <a href="https://github.com/MrSp4rX/WhatsAppBot">https://github.com/MrSp4rX/WhatsAppBot</a><br><br>
-
 * <strong>Report Bugs:</strong> <a href="http://wa.me/919519874704">+91 95198 74704</a><br><br>
-
 * <strong>Open Issue:</strong> <a href="https://github.com/MrSp4rX/WhatsAppBot/issues/new">https://github.com/MrSp4rX/WhatsAppBot/issues/new</a><br><br>
-
 * For Protecting Your number from iSpammer tool for Lifetime contact  <a href="http://wa.me/919519874704">Here.</a><br><br>
-
 * For Queries, Banning, UnBanning and Abusing Persons contact <a href="http://wa.me/919519874704">Here.</a><br><br>
-
 '''
 
 if __name__ == '__main__':
