@@ -12,7 +12,7 @@ import jiosaavn
 
 app = Flask(__name__)
 # CORS(app)
-url = 'https://bhosadatrappp.herokuapp.com'
+url = 'http://127.0.0.1:5000'
 
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
@@ -227,7 +227,7 @@ def inbound_message():
             try:
                 jiotune_url = top_data['vlink']
             except:
-                pass
+                jiotune_url = "URL Not Found"
             main_caption = f'''
 *Name:* {name}. 
 *Song:* {media_url}. 
