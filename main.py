@@ -8,14 +8,10 @@ from time import sleep
 import logging
 import random
 import jiosaavn
-# from flask_cors import CORS
+import wikipedia
 
 app = Flask(__name__)
-# CORS(app)
-url = 'https://bhosadatrappp.herokuapp.com'
-
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
+url = 'http://127.0.0.1:5000'
 
 def get_song(query):
     try:
@@ -32,14 +28,14 @@ def main(query):
     else:
         pass
 
-    num = random.randint(0, 16)
+
     response = requests.get(f'https://api.unsplash.com/search/photos?client_id=iq6ZmfICfiWv8NNoobrG1vqCr6TOC5qBNR1FE4CvfDA&query={query}&order_by=latest&orientation=portrait').json()
-    desc = response['results'][num]['description']
-    url = response['results'][num]['urls']['regular']
-    created_at = response['results'][num]['created_at']
-    width = response['results'][num]['width']
-    height = response['results'][num]['height']
-    likes = response['results'][num]['likes']
+    desc = response['results'][0]['description']
+    url = response['results'][0]['urls']['regular']
+    created_at = response['results'][0]['created_at']
+    width = response['results'][0]['width']
+    height = response['results'][0]['height']
+    likes = response['results'][0]['likes']
     return {
         "desc":desc,
         "url":url,
@@ -209,6 +205,18 @@ def inbound_message():
             
         elif str(msg).lower()=='send courses':
             send(number, 'No courses now', type)
+
+        elif 'wikipedia' in str(msg).lower():
+            msg = str(msg).replace('wikipedia','')
+            try:
+                result = wikipedia.summary(msg, sentences=3)
+                main_msg = f'''
+According to Wikipedia:
+
+{result}'''
+                print(f"<<< Bhosada Trap sent {send(number, main_msg, type)}\n")
+            except:
+                print(f'''<<< Bhosada Trap sent {send(number, f"I can't find anything related to{msg}.", type)}\n''')
         
         elif 'image' in str(msg).lower():
             msg = str(msg).lower().replace('image ', '')
@@ -248,7 +256,15 @@ _*Credits: Real Code of Song Fetching Code is here: https://github.com/cyberboys
             print(f'\n<<< Bhosada Trap sent {send(number, "Hey, I am a Bot. My name is *Bhosada Trap*. I was created by *Mr. SparX*. He is my Owner.", type)}\n')
         
         elif str(msg).lower() == 'commands':
-            print(f"\n<<< Bhosada Trap Sent {send(number, '*Ispammer* Command is used for Bombing on Indain numbers. *Help* Command is used to know about me. *Commands* Command is used to know All the commsnds. *Image* Command is used to Retrieve image of any Catagory. *Start* Command is used to check if Bot is Offline or Online. *Ping* Command is to Ping the Bot.', type)}\n")
+            commands = '''
+1. *Ispammer* Command is used for Bombing on Indain numbers. 
+2. *Help* Command is used to know about me. 
+3. *Commands* Command is used to know All the commsnds. 
+4. *Image* Command is used to Retrieve image of any Catagory. 
+5. *Start* Command is used to check if Bot is Offline or Online. 
+6. *Ping* Command is to Ping the Bot.'''
+
+            print(f"\n<<< Bhosada Trap Sent {send(number, commands, type)}\n")
         elif 'ispammer' in str(msg).lower():
             print(f"\n<<< Bhosada Trap Sent {send(number, 'This Command is unable due to some Reasons. Any query? Contact: wa.me/919519874704', type)}\n")
             
@@ -261,10 +277,12 @@ _*Credits: Real Code of Song Fetching Code is here: https://github.com/cyberboys
             msg = str(msg)
             for word in abuse:
                 if word in str(msg).lower():
-                    if number=='919519874704':
-                        break
-                    else:
+                    if number!='919519874704':
                         print(f'\n<<< Bhosada Trap sent {send(number, choice(abuse_reply), type)}\n')
+                else:
+                    err_msg = 'Sorry! Ummm I Didn\'t get that...'
+                    print(f'\n<<< Bhosada Trap sent {send(number, err_msg, type)}\n')
+                    break
 
 
     return ''
@@ -294,6 +312,7 @@ Introducing *Bhosada Trap* which is my New bot and I am glad to inform you that 
 3. Commands<br><br>
 4. Image<br><br>
 5. Ping<br><br>
+6. Song<br><br>
 <strong>Note:</strong> Don't Use Abuse Words there otherwise Bot will abuse you Hard. This Bot is Under Development<br><br>
 * <strong>Credits:</strong> Name Credit Goes to <strong>R37r0.Gh057</strong><br><br>
 * <strong>Source Code:</strong> <a href="https://github.com/MrSp4rX/WhatsAppBot">https://github.com/MrSp4rX/WhatsAppBot</a><br><br>
