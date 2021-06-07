@@ -3,3 +3,4 @@ flask
 requests
 ispammer
 pyDes
+wikipedia
