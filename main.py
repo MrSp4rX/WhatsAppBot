@@ -207,8 +207,8 @@ def inbound_message():
             send(number, 'No courses now', type)
 
         elif 'wikipedia' in str(msg).lower():
-            msg = str(msg).replace('wikipedia','')
             try:
+                msg = str(msg).replace('wikipedia','')
                 result = wikipedia.summary(msg, sentences=3)
                 main_msg = f'''
 According to Wikipedia:
@@ -216,7 +216,8 @@ According to Wikipedia:
 {result}'''
                 print(f"<<< Bhosada Trap sent {send(number, main_msg, type)}\n")
             except:
-                print(f'''<<< Bhosada Trap sent {send(number, f"I can't find anything related to{msg}.", type)}\n''')
+                msg = str(msg).replace('wikipedia','')
+                print(f'''<<< Bhosada Trap sent {send(number, f"I can't find anything related to {msg}.", type)}\n''')
         
         elif 'image' in str(msg).lower():
             msg = str(msg).lower().replace('image ', '')
@@ -247,7 +248,9 @@ According to Wikipedia:
 *Release Date:* {release_date}.
 *Singers:* {singers}.
 *JioTune URL:* {jiotune_url}
-_*Credits: Real Code of Song Fetching Code is here: https://github.com/cyberboysumanjay/JioSaavnAPI. Owner is https://github.com/cyberboysumanjay/ .*_
+
+_*Credits: Real Code of Song Fetching Code is here: https://github.com/cyberboysumanjay/JioSaavnAPI.*_
+_*Owner is https://github.com/cyberboysumanjay/ *_
 '''
             print(f'\n<<< Bhosada Trap sent {main_caption} with Corresponding Image. {img_send(number, main_caption, image_url)}\n')
                 
