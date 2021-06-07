@@ -208,16 +208,16 @@ def inbound_message():
 
         elif 'wikipedia' in str(msg).lower():
             try:
-                msg = str(msg).replace('wikipedia','')
-                result = wikipedia.summary(msg, sentences=3)
+                query_msg = str(msg).replace('wikipedia','')
+                result = wikipedia.summary(query_msg, sentences=3)
                 main_msg = f'''
 According to Wikipedia:
 
 {result}'''
                 print(f"<<< Bhosada Trap sent {send(number, main_msg, type)}\n")
             except:
-                msg = str(msg).replace('wikipedia','')
-                print(f'''<<< Bhosada Trap sent {send(number, f"I can't find anything related to {msg}.", type)}\n''')
+                err_query = str(msg).replace('wikipedia','')
+                print(f'''<<< Bhosada Trap sent {send(number, f"I can't find anything related to {err_query}.", type)}\n''')
         
         elif 'image' in str(msg).lower():
             msg = str(msg).lower().replace('image ', '')
@@ -240,7 +240,7 @@ According to Wikipedia:
             main_caption = f'''
 *Name:* {name}. 
 *Song:* {media_url}. 
-*Duration:* {duration}. 
+*Duration:* {duration} Seconds. 
 *Language:* {language}.
 *Lyrics Snippets:* {lyrics_snippet}. 
 *Media Preview URL:* {media_preview_url}. 
