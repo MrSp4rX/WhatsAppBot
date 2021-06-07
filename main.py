@@ -11,7 +11,7 @@ import jiosaavn
 import wikipedia
 
 app = Flask(__name__)
-url = 'http://127.0.0.1:5000'
+url = 'https://bhosadatrappp.herokuapp.com'
 
 def get_song(query):
     try:
