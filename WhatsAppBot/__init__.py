@@ -8,21 +8,17 @@ from time import sleep
 import logging
 import random
 import jiosaavn
-# from flask_cors import CORS
+import wikipedia
 
 app = Flask(__name__)
-# CORS(app)
-url = 'http://127.0.0.1:5000'
-
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
+url = 'https://bhosadatrappp.herokuapp.com'
 
 def get_song(query):
     try:
         query = query.replace(' ', '%20')
     except:
         pass
-    r = requests.get(f'http://127.0.0.1:5000/song?query={query}').json()
+    r = requests.get(f'{url}/song?query={query}').json()
     top_data = r[0]
     return top_data
 
@@ -32,14 +28,14 @@ def main(query):
     else:
         pass
 
-    num = random.randint(0, 16)
+
     response = requests.get(f'https://api.unsplash.com/search/photos?client_id=iq6ZmfICfiWv8NNoobrG1vqCr6TOC5qBNR1FE4CvfDA&query={query}&order_by=latest&orientation=portrait').json()
-    desc = response['results'][num]['description']
-    url = response['results'][num]['urls']['regular']
-    created_at = response['results'][num]['created_at']
-    width = response['results'][num]['width']
-    height = response['results'][num]['height']
-    likes = response['results'][num]['likes']
+    desc = response['results'][0]['description']
+    url = response['results'][0]['urls']['regular']
+    created_at = response['results'][0]['created_at']
+    width = response['results'][0]['width']
+    height = response['results'][0]['height']
+    likes = response['results'][0]['likes']
     return {
         "desc":desc,
         "url":url,
@@ -96,7 +92,7 @@ abuse_reply = [
 	'Madarchod Zuban pe conrol karo warna gand faad denge',
 	'Your Dady can only Abuse Samjha  Bhosadike',
 	'Jada Shanpatti nahi warna, Shahtoot ki Patli dandi maar maar ke Chutad pr *Rockstart* likh dunga',
-        'Yahi Patak ke chod denge, ab nikal madarchod'
+    'Yahi Patak ke chod denge, ab nikal madarchod'
 
 ]
 banned_users = []
@@ -209,6 +205,19 @@ def inbound_message():
             
         elif str(msg).lower()=='send courses':
             send(number, 'No courses now', type)
+
+        elif 'wikipedia' in str(msg).lower():
+            try:
+                query_msg = str(msg).replace('wikipedia','')
+                result = wikipedia.summary(query_msg, sentences=3)
+                main_msg = f'''
+According to Wikipedia:
+
+{result}'''
+                print(f"<<< Bhosada Trap sent {send(number, main_msg, type)}\n")
+            except:
+                err_query = str(msg).replace('wikipedia','')
+                print(f'''<<< Bhosada Trap sent {send(number, f"I can't find anything related to {err_query}.", type)}\n''')
         
         elif 'image' in str(msg).lower():
             msg = str(msg).lower().replace('image ', '')
@@ -223,11 +232,15 @@ def inbound_message():
         elif 'song' in str(msg).lower():
             query = str(msg).replace('song ', '')
             top_data = get_song(query)
-            name, duration, has_lyrics, image_url, language, lyrics_snippet, media_preview_url, media_url, perma_url, release_date, singers, jiotune_url = top_data['album'], top_data['duration'], top_data['has_lyrics'], top_data['image'], top_data['language'], top_data['lyrics_snippet'], top_data['media_preview_url'], top_data['media_url'], top_data['perma_url'], top_data['release_date'], top_data['singers'], top_data['vlink']
+            name, duration, image_url, language, lyrics_snippet, media_preview_url, media_url, perma_url, release_date, singers= top_data['album'], top_data['duration'], top_data['image'], top_data['language'], top_data['lyrics_snippet'], top_data['media_preview_url'], top_data['media_url'], top_data['perma_url'], top_data['release_date'], top_data['singers']
+            try:
+                jiotune_url = top_data['vlink']
+            except:
+                jiotune_url = "URL Not Found"
             main_caption = f'''
 *Name:* {name}. 
 *Song:* {media_url}. 
-*Duration:* {duration}. 
+*Duration:* {duration} Seconds. 
 *Language:* {language}.
 *Lyrics Snippets:* {lyrics_snippet}. 
 *Media Preview URL:* {media_preview_url}. 
@@ -236,7 +249,8 @@ def inbound_message():
 *Singers:* {singers}.
 *JioTune URL:* {jiotune_url}
 
-_*Credits: Real Code of Song Fetching Code is here: https://github.com/cyberboysumanjay/JioSaavnAPI. Owner is https://github.com/cyberboysumanjay/*_
+_*Credits: Real Code of Song Fetching Code is here: https://github.com/cyberboysumanjay/JioSaavnAPI.*_
+_*Owner is https://github.com/cyberboysumanjay/ *_
 '''
             print(f'\n<<< Bhosada Trap sent {main_caption} with Corresponding Image. {img_send(number, main_caption, image_url)}\n')
                 
@@ -245,7 +259,16 @@ _*Credits: Real Code of Song Fetching Code is here: https://github.com/cyberboys
             print(f'\n<<< Bhosada Trap sent {send(number, "Hey, I am a Bot. My name is *Bhosada Trap*. I was created by *Mr. SparX*. He is my Owner.", type)}\n')
         
         elif str(msg).lower() == 'commands':
-            print(f"\n<<< Bhosada Trap Sent {send(number, '*Ispammer* Command is used for Bombing on Indain numbers. *Help* Command is used to know about me. *Commands* Command is used to know All the commsnds. *Image* Command is used to Retrieve image of any Catagory. *Start* Command is used to check if Bot is Offline or Online. *Ping* Command is to Ping the Bot.', type)}\n")
+            commands = '''
+1. *Ispammer* Command is used for Bombing on Indain numbers. 
+2. *Help* Command is used to know about me. 
+3. *Commands* Command is used to know All the commands. 
+4. *Image* Command is used to Retrieve image of any Catagory. 
+5. *Start* Command is used to check if Bot is Offline or Online. 
+6. *Ping* Command is to Ping the Bot.
+7. *Song* Command is used to get any Song's Link World Wide.'''
+
+            print(f"\n<<< Bhosada Trap Sent {send(number, commands, type)}\n")
         elif 'ispammer' in str(msg).lower():
             print(f"\n<<< Bhosada Trap Sent {send(number, 'This Command is unable due to some Reasons. Any query? Contact: wa.me/919519874704', type)}\n")
             
@@ -258,10 +281,12 @@ _*Credits: Real Code of Song Fetching Code is here: https://github.com/cyberboys
             msg = str(msg)
             for word in abuse:
                 if word in str(msg).lower():
-                    if number=='919519874704':
-                        break
-                    else:
+                    if number!='919519874704':
                         print(f'\n<<< Bhosada Trap sent {send(number, choice(abuse_reply), type)}\n')
+                else:
+                    err_msg = 'Sorry! Ummm I Didn\'t get that...'
+                    print(f'\n<<< Bhosada Trap sent {send(number, err_msg, type)}\n')
+                    break
 
 
     return ''
@@ -282,36 +307,25 @@ def inbound_status():
 @app.route("/")
 def index():
     return '''
-
 <h3>Bhosada Trap</h3>
 <br><br>
 Introducing *Bhosada Trap* which is my New bot and I am glad to inform you that You guys can use my Bot via WhatsApp. To use this Bot first verify your Number by sending *Join theft lived* message on http://wa.me/14157386170 or You can verify your Number by just clicking on this link: http://wa.me/14157386170?text=Join%20theft%20lived and then use these HelpFul Commands:
 <br><br>
 1. Start<br><br>
-
 2. Help<br><br>
-
 3. Commands<br><br>
-
 4. Image<br><br>
-
 5. Ping<br><br>
-
+6. Song<br><br>
+6. Ispammer<br><br>
 <strong>Note:</strong> Don't Use Abuse Words there otherwise Bot will abuse you Hard. This Bot is Under Development<br><br>
-
 * <strong>Credits:</strong> Name Credit Goes to <strong>R37r0.Gh057</strong><br><br>
-
 * <strong>Source Code:</strong> <a href="https://github.com/MrSp4rX/WhatsAppBot">https://github.com/MrSp4rX/WhatsAppBot</a><br><br>
-
 * <strong>Report Bugs:</strong> <a href="http://wa.me/919519874704">+91 95198 74704</a><br><br>
-
 * <strong>Open Issue:</strong> <a href="https://github.com/MrSp4rX/WhatsAppBot/issues/new">https://github.com/MrSp4rX/WhatsAppBot/issues/new</a><br><br>
-
 * For Protecting Your number from iSpammer tool for Lifetime contact  <a href="http://wa.me/919519874704">Here.</a><br><br>
-
 * For Queries, Banning, UnBanning and Abusing Persons contact <a href="http://wa.me/919519874704">Here.</a><br><br>
-
 '''
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
