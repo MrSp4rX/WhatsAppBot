@@ -92,7 +92,7 @@ abuse_reply = [
 	'Madarchod Zuban pe conrol karo warna gand faad denge',
 	'Your Dady can only Abuse Samjha  Bhosadike',
 	'Jada Shanpatti nahi warna, Shahtoot ki Patli dandi maar maar ke Chutad pr *Rockstart* likh dunga',
-        'Yahi Patak ke chod denge, ab nikal madarchod'
+    'Yahi Patak ke chod denge, ab nikal madarchod'
 
 ]
 banned_users = []
@@ -262,10 +262,11 @@ _*Owner is https://github.com/cyberboysumanjay/ *_
             commands = '''
 1. *Ispammer* Command is used for Bombing on Indain numbers. 
 2. *Help* Command is used to know about me. 
-3. *Commands* Command is used to know All the commsnds. 
+3. *Commands* Command is used to know All the commands. 
 4. *Image* Command is used to Retrieve image of any Catagory. 
 5. *Start* Command is used to check if Bot is Offline or Online. 
-6. *Ping* Command is to Ping the Bot.'''
+6. *Ping* Command is to Ping the Bot.
+7. *Song* Command is used to get any Song's Link World Wide.'''
 
             print(f"\n<<< Bhosada Trap Sent {send(number, commands, type)}\n")
         elif 'ispammer' in str(msg).lower():
@@ -316,6 +317,7 @@ Introducing *Bhosada Trap* which is my New bot and I am glad to inform you that 
 4. Image<br><br>
 5. Ping<br><br>
 6. Song<br><br>
+6. Ispammer<br><br>
 <strong>Note:</strong> Don't Use Abuse Words there otherwise Bot will abuse you Hard. This Bot is Under Development<br><br>
 * <strong>Credits:</strong> Name Credit Goes to <strong>R37r0.Gh057</strong><br><br>
 * <strong>Source Code:</strong> <a href="https://github.com/MrSp4rX/WhatsAppBot">https://github.com/MrSp4rX/WhatsAppBot</a><br><br>
